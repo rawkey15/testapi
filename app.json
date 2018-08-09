@@ -1,8 +1,0 @@
-{
-  "name": "Demo of MovieDB api usage",
-  "description": "A Node.js app using Express 4 and MovieDB api",
-  "repository": "https://github.com/heroku/node-js-getting-started",
-  "logo": "",
-  "keywords": ["node", "express", "heroku"],
-  "image": ""
-}
