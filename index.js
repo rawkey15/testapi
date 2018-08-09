@@ -1,22 +1,22 @@
 var express = require('express');
 var app = express();
+var cricapi = require("node-cricapi");
 var request = require('request');
-
-const phantom = require('phantom');
-let gCookie = null;
 
 app.set('port', (process.env.PORT || 5000));
 
 //setup cross-origin
 
 var cors =  {
-    origin: ["<<your allowed domains>>"],
-    default: "<<your default allowed domain>>" 
-};
+
+            origin: ["https://rakesh-angular-dashboard.herokuapp.com"],
+
+            default: "https://rakesh-angular-dashboard.herokuapp.com" 
+        }
 
 app.use(function(req, res, next) {
 
-  var origins =  req.headers.origin ;
+  var origins = cors.origin.indexOf(req.header('origin')) > -1 ? req.headers.origin : cors.default;
 
   res.header("Access-Control-Allow-Origin", origins);
 
@@ -45,100 +45,39 @@ app.listen(app.get('port'), function() {
 
 //Router for rest api
 
-var key = 'ra15';
+var v3_apikey = '32047621915820fa1caf5db2a806146e';
+var v4_authToken = 'BearereyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMjA0NzYyMTkxNTgyMGZhMWNhZjVkYjJhODA2MTQ2ZSIsInN1YiI6IjU5NDAyMzc2OTI1MTQxN2E4MzAwOGEwNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3sGZZ6y-MFJPf7GVjP8sgrxqw_O0iXzXWXMn_iD0c2k';
 
-app.get('/token/:id/:site/:ckey', function(req, res, next) {
-  var unique_id = req.params.id;
-  var site = req.params.site;
-  var ckey = req.params.ckey;
-  
- // console.log(unique_id+"::"+site);
-  if(unique_id === key && site){
-    let concat='https://'+site;
-    (async function() {
-      const instance = await phantom.create();
-      const page = await instance.createPage();
-     /* await page.on('onResourceRequested', function(requestData) {
-        console.info('Requesting', requestData.url);
-      });*/
-    
-      const status = await page.open(concat);
-      //const content = await page.property('content');
-      //console.log(content);
-    
-      await page.evaluate(function() {
-        return document.cookie;
-        }).then(function(c){
-           // console.log(c);
-            //XPartnerAuthKey;
-            let getCookie = function(cname,cook) {
-                var name = cname + "=";
-                var decodedCookie = decodeURIComponent(cook);
-               // console.log(cook);
-                var ca = decodedCookie.split(';');
-                for(var i = 0; i <ca.length; i++) {
-                    var c = ca[i];
-                    while (c.charAt(0) == ' ') {
-                        c = c.substring(1);
-                    }
-                    if (c.indexOf(name) == 0) {
-                        return c.substring(name.length, c.length);
-                    }
-                }
-                return null;
-            } 
-            gCookie= getCookie(ckey, c);
-          //  gCookie = c.split(';');
-            //console.log(gCookie);
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({ t: gCookie }));
-        });
-    
-     await instance.exit();
-    })();
-
-  } else {
-    return null;
-  }
-  
-});
-
-app.get('/match/:id', function(req, res, next) {
-var unique_id = req.params.id;
+app.get('/search/:movie', function(req, res, next) {
+var moviename = req.params.movie;
   request({
-    uri: 'http://cricapi.com/api/cricketScore?unique_id='+unique_id+'&apikey='+key    
+    uri: 'https://api.themoviedb.org/3/search/movie?api_key='+v3_apikey+'&query='+moviename
   }).pipe(res);
 });
 
-app.get('/match/summary/:id', function(req, res, next) {
-var unique_id = req.params.id;
+app.get('/movie/:id', function(req, res, next) {
+var movieid = req.params.id;
   request({
-    uri: 'http://cricapi.com/api/fantasySummary?unique_id='+unique_id+'&apikey='+key 
+    uri: 'https://api.themoviedb.org/3/movie/'+movieid+'?api_key='+v3_apikey+'&append_to_response=videos'
   }).pipe(res);
 });
 
-app.get('/match/squad/:id', function(req, res, next) {
-var unique_id = req.params.id;
-  request({
-    uri: 'http://cricapi.com/api/fantasySquad?unique_id='+unique_id+'&apikey='+key    
-  }).pipe(res);
+app.get('/movieslist', function(req, res, next) {
+
+var options = { method: 'GET',
+  url: 'https://api.themoviedb.org/4/list/1',
+  qs: 
+   { language: 'english',
+     api_key: v3_apikey,
+     page: '1' },
+  headers: 
+   { authorization: v4_authToken,
+     'content-type': 'application/json;charset=utf-8' },
+  body: {},
+  json: true };
+
+request(options).pipe(res);
 });
-
-app.get('/player/:id', function(req, res, next) {
-var pid = req.params.id;
-  request({
-    uri: 'http://cricapi.com/api/playerStats?pid='+pid+'&apikey='+key    
-  }).pipe(res);
-});
-
-app.get('/matchcalender', function(req, res, next) {
-var pid = req.params.id;
-  request({
-    uri: 'http://cricapi.com/api/matchCalendar&apikey='+key    
-  }).pipe(res);
-});
-
-
 
 
 

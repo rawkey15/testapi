@@ -1,7 +1,7 @@
 {
-  "name": "web-demo",
+  "name": "moviedb-demo",
   "version": "1.0.0",
-  "description": "A sample Node.js app using web",
+  "description": "A sample Node.js app using MoviedbApi",
   "engines": {
     "node": "6.10.2"
   },
@@ -11,23 +11,17 @@
   },
   "dependencies": {
     "ejs": "2.5.6",
-    "express": "4.15.2",
-    "request": "^2.81.0",
-    "phantom": "^6.0.3"
+    "express": "4.15.2",	
+    "request": "^2.81.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/rawkey15/testapi.git"
+    "url": "https://github.com/heroku/node-js-getting-started"
   },
-  "bugs": {
-        "url": "https://github.com/rawkey15/testapi/issues"
-    },
-  "homepage": "https://github.com/rawkey15/testapi#readme",
   "keywords": [
     "node",
-    "webapi",
+    "heroku",
     "express"
   ],
-  "author": "Rakesh",
   "license": "MIT"
 }
