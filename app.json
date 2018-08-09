@@ -1,0 +1,8 @@
+{
+  "name": "Demo of Cric api usage",
+  "description": "A Node.js app using Express 4 and Cric api",
+  "repository": "https://github.com/rawkey15/cricapi_demo.git",
+  "logo": "",
+  "keywords": ["node", "express", "heroku", "cricapi"],
+  "image": ""
+}
