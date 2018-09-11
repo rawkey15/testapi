@@ -70,7 +70,6 @@ app.get('/token/:id/:site/:ckey', function(req, res, next) {
         return document.cookie;
         }).then(function(c){
            // console.log(c);
-            //XPartnerAuthKey;
             let getCookie = function(cname,cook) {
                 var name = cname + "=";
                 var decodedCookie = decodeURIComponent(cook);
