@@ -19,7 +19,7 @@ app.use(function(req, res, next) {
   var origins =  req.headers.origin ;
 
   //res.header("Access-Control-Allow-Origin", origins);
-  res.header("Access-Control-Allow-Origin", *);
+  res.header("Access-Control-Allow-Origin", "*");
 
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
