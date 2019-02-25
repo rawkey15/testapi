@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var request = require('request');
+var cors = require('cors'); // for cross origin 
 
 const phantom = require('phantom');
 let gCookie = null;
@@ -9,9 +10,11 @@ app.set('port', (process.env.PORT || 5000));
 
 //setup cross-origin
 
-var cors =  {
-    origin: ["<<your allowed domains>>"],
-    default: "<<your default allowed domain>>" 
+app.use(cors()) // using cors
+
+/*var cors =  {
+    origin: ["<<your allowed domains>>"],
+    default: "<<your default allowed domain>>" 
 };
 
 app.use(function(req, res, next) {
@@ -19,7 +22,6 @@ app.use(function(req, res, next) {
   var origins =  req.headers.origin ;
 
   res.header("Access-Control-Allow-Origin", origins);
-  //res.header("Access-Control-Allow-Origin", "*");
 
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
@@ -27,7 +29,7 @@ app.use(function(req, res, next) {
 
   next();
 
-});
+});*/
 
 
 app.use(express.static(__dirname + '/public'));
