@@ -1,7 +1,7 @@
 const request = require('request');
 const AES = require('aes256');
 
-const key = 'H$ek@r~15081984~';
+const key = '';
 const imageToBase64 = require('image-to-base64');
 
 const imageToBase = function(url) {
@@ -18,7 +18,7 @@ const Routes = (app) => {
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Request-Headers': '*',
-                'api-key': '7uSeUtvlvwC1FWEC2QGdtQGs5fS6BcK4QjJJlycpcxtVy4G6gRdr3Q3vyWxB1QDv'
+                'api-key': ''
             },
             body: {
                 "collection": "user",
